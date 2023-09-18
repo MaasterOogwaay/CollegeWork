@@ -1,3 +1,6 @@
+/* select everything */
+select * from details
+
 /* create table */
 create table my_info(
     id integer not null,
