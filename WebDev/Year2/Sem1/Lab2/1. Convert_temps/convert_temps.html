@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Convert from Fahrenheit to Centigrade</title>
+    <script>
+        let fahrenheit = 0;
+        do {
+            fahrenheit = parseInt(prompt("Enter the Fahrenheit temperature: ", 100));
+            console.log(fahrenheit);
+
+            if (fahrenheit === 999) {
+                alert("Exiting loop and writing results to document");
+            } else if (fahrenheit < -100 || fahrenheit > 212) {
+                let content = `You entered: ${fahrenheit}\nPlease enter a number between -100 and +212!`;
+                alert(content);
+            }
+            else {
+                let result = (fahrenheit - 32) * (5 / 9);
+                console.log(result);
+                console.log(`Fahrenheit: ${fahrenheit} | Celsius: ${result}`)
+                document.write(`Fahrenheit: ${fahrenheit} | Celsius: ${result}<br>`);
+            }
+        } while (fahrenheit != 999);
+    </script>
+</head>
+
+<body>
+    <main>
+        <h1>Thanks for using the temperature converter</h1>
+    </main>
+</body>
+
+</html>

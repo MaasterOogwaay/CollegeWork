@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sum of Numbers</title>
+    <script>
+        let again = "y";
+        do {
+            let input = parseInt(prompt("Enter a number between 1 and 100 to sum: ", 10));
+            if (!(input < 1) || !(input > 100)) {
+                let sumOfNumbers = 0;
+                const numberOfLoops = input;
+                for (let counter = 1; counter <= numberOfLoops; counter++) {
+                    sumOfNumbers += counter;
+                }
+                alert(`Sum: ${sumOfNumbers}`);
+            } else {
+                alert(`Plese enter a number from 1 to 100`);
+            }
+        } while (again == "y");
+
+    </script>
+</head>
+
+<body>
+    <main>
+        <!-- Will show after JavaScript has run -->
+        <h1>Thanks for using the Sum of Numbers application!</h1>
+    </main>
+</body>
+
+</html>
