@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Show letter grade</title>
+    <script>
+        let entry;
+        let average;
+        let total = 0;
+        const scores = [];
+        let max = 0;
+        let min = 0;
+        let text = "The test scores:\n"
+
+        do {
+            entry = parseInt(prompt("Enter the scores from 0 to 100\nEnter 999 to end the collection", 999));
+
+            if (entry >= 0 && entry <= 100) {
+                scores[scores.length] = entry;
+            } else if (entry != 999) {
+                alert("Enter the scores from 0 to 100\nEnter 999 to end the collection");
+            }
+        } while (entry != 999);
+
+        for (let i = 0; i < scores.length; i++) {
+            if (scores[i] >= 40) {
+                text = text + scores[i] + " - Pass\n";
+                total = total + scores[i];
+                max = scores[i];
+                if (scores[i] > max) {
+                    max = scores[i];
+                }
+            } else {
+                text = text + scores[i] + " - Fail\n";
+                total = total + scores[i];
+                min = scores[i];
+                if (scores[i] < min) {
+                    min = scores[i];
+                }
+            }
+        }
+        average = parseInt(total / scores.length);
+        alert(`${text}\nAverage Score is: ${average}\nThe maximum is: ${max}\nThe minimum is: ${min}`);
+
+    </script>
+</head>
+
+<body>
+    <section>
+        <h1>This page is displayed after the JavaScript is executed</h1>
+    </section>
+</body>
+
+</html>
