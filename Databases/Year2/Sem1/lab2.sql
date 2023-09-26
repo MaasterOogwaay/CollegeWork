@@ -86,7 +86,7 @@ select * from details where lastName like "%an%";
 select * from details where lastName like "%n";
 
 /* use "_" to mask certain characters */
-/* all records where the 2nd last letter in lastName is 3 */
+/* all records where the 2nd last letter in lastName is e */
 select * from details where lastName like "%e_";
 
 /* Aggregration Functions */
