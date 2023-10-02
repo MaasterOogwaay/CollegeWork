@@ -95,3 +95,11 @@ select department, avg(rate*hours) as avgWage from details group by department o
 /* average who earns more */
 select gender, avg(rate*hours) as avgWage from details group by gender;
 
+/* employees who earn more than avg wage in their apartment */
+select *, (rate * hours) as wage
+from details as d 
+where (rate * hours) > 
+    (select avg(rate*hours)
+    from details as d2
+    where d2.department = d.department);
+

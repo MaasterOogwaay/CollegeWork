@@ -147,5 +147,78 @@ SELECT * FROM rentals;
 /* cartesian Product - multiply 2 tables together */
 select * from customers, employees;
 
-/* union */
+/* union note: doesn't include duplicates */
 (select firstName, lastName, town from customers) UNION (select firstName, lastName, town from employees);
+
+/* inner join (intersection) */
+/* goes through customer table and tries to match somethng in employees table */
+select c.firstName, c.lastName, c.town
+from customers as c inner join employees as e on
+(c.firstName = e.firstName and c.lastName = e.lastName and c.town = e.town);
+/* another way */
+select c.firstName, c.lastName, c.town
+from customers as c where EXISTS
+(select e.firstName, e.lastName, e.town from employees as e
+where c.firstName = e.firstName and c.lastName = e.lastName
+and c.town = e.town);
+
+/* except - gets everything in table one and not table 2 */
+select c.firstName, c.lastName, c.town
+from customers as c where not EXISTS
+(select e.firstName, e.lastName, e.town from employees as e
+where c.firstName = e.firstName and c.lastName = e.lastName
+and c.town = e.town);
+
+/* division - */
+SELECT DISTINCT c1.y AS y FROM c c1
+WHERE NOT EXISTS
+(SELECT d.x FROM d WHERE d.x NOT IN 
+(SELECT c2.x FROM c c2 WHERE c2.y = c1.y));
+
+/* */
+select rental_id, title, cus_id, emp_id, dateRented 
+from rentals, books 
+where rentals.book_id = books.book_id; /* column common between 2 tables is what we join them on */
+
+/* dates */
+select current_date();
+select now();
+select dayname(now()) as info;
+select monthname(now()) as info;
+select day(now()), month(now()), year(now());
+select dayofmonth(now());
+select dayofweek(now());
+select dayofyear(now());
+select dayofweek("2000-12-25"); /* gets day of the date */
+/* add days */
+select now(), date_add(now(), interval 4 day);
+select now(), date_add(now(), interval 5 month);
+select now(), date_add(now(), interval 6 year);
+/* subtract days */
+select now(), date_sub(now(), interval 4 day);
+select now(), date_sub(now(), interval 5 month);
+select now(), date_sub(now(), interval 6 year);
+/* num of days between 2 dates */
+select datediff(now(), "2023-11-01");
+select datediff("2023-11-01", now());
+select datediff(now(), "2022-09-01") as "Time in College";
+/* get someones age */
+/* datediff gets num of days*/
+/* from_days gets a num of years from that */
+/* formats as age */
+select date_format(from_days(datediff(now(), "2003-08-11")), "%y") as age;
+
+/* get random number */
+select cast((rand() * 10) as unsigned integer);
+
+/* Questions */
+/* Oldest employee */
+/*v1*/ select firstName, lastName, dateOfBirth from employees order by dateOfBirth limit 1;
+/*v2*/ /* this way is better as it would return multiple results */ select firstName, lastName, dateOfBirth from employees where dateOfBirth = (select min(dateOfBirth) from employees);
+
+/* ages of each employee */
+select firstName, lastName, dateOfBirth,
+date_format(from_days(datediff(now(), dateOfBirth)), "%y") as age from employees;
+/* Ages of each customer */
+select firstName, lastName, dateOfBirth,
+date_format(from_days(datediff(now(), dateOfBirth)), "%y") as age from customers;
