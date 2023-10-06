@@ -10,6 +10,8 @@ const calculateFahrenheit = (temp) => (temp * 9) / 5 + 32;
 const toggleDisplay = (label1Text, label2Text) => {
   $("degree_label_1").innerHTML = label1Text;
   $("degree_label_2").innerHTML = label2Text;
+  $("degrees_entered").value = "";
+  $("degrees_computed").value = "";
 };
 
 /****************************
@@ -20,13 +22,18 @@ const convertTemp = () => {
   console.log(degreesEntered);
   if (isNaN(degreesEntered)) {
     $("message").innerHTML = "You must enter a valid number of degrees";
+    $("degrees_entered").value = "";
+    $("degrees_computed").value = "";
+    $("degrees_entered").focus();
   } else {
     if ($("to_celsius").checked) {
       const conversion = Math.ceil(calculateCelsius(degreesEntered));
       $("degrees_computed").value = conversion;
+      $("message").innerHTML = "";
     } else {
       const conversion = Math.ceil(calculateFahrenheit(degreesEntered));
       $("degrees_computed").value = conversion;
+      $("message").innerHTML = "";
     }
   }
 };
