@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#list_box {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 87.5%;
+    width: 650px;
+    margin: 0 auto;
+    border: 3px solid blue;
+    padding: 15px 25px;
+}
+
+#error_message {
+    color: red;
+    font-weight: bold;
+}
+
+input.checked {
+    text-decoration: line-through;
+}

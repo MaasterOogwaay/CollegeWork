@@ -41,7 +41,8 @@ const displayResults = function () {
     }
   }
 
-  resultsDiv.innerHTML = "<h2>Results</h2><p>" + avgResult + "</p><br><p>Highest result is " + highest + "</p>";
+  resultsDiv.innerHTML =
+    "<h2>Results</h2><p>Average Result: " + avgResult + "</p><br><p>Highest result is " + highest + "</p>";
 };
 
 const displayScores = function () {
