@@ -9,7 +9,7 @@ from drivers import Driver
 # TODO - ASK ABOUT BEING ABLE TO SWITCH BETWEEN PAGES
 
 window = Tk()
-window.geometry("280x580")
+window.geometry("380x580")
 window.title("Welcome")
 
 # =====| Event Handlers |=====
@@ -58,15 +58,9 @@ def markDNF():
 
 def resetData():
     global current
-    driver.resetAll()
+    for el in driverList:
+        el.resetAll()
     display(current)
-
-
-# TODO
-def simSeason():
-    errorMessageEntry.delete(0, END)
-    errorMessageEntry.insert(END, "Season Simulated Successfully")
-
 
 def getWinPercentage():
     try:
@@ -115,9 +109,30 @@ def simulateSeason():
 def getLeaderboardData():
     global driver
     try:
+        rowX = 1
         for el in driverList:
-            el.getLeaderboardData()
-        errorMessageEntry.insert(END, "Leader data collected")
+            #el.getLeaderboardData()
+            name = el.getName()
+            points = el.getPoints()
+            rowX += 1
+
+            posBox = Entry(frame2)
+            posBox.grid(column=0, row=rowX)
+            posBox.delete(0, END)
+            posBox.insert(END, rowX - 1)
+
+            nameBox = Entry(frame2)
+            nameBox.grid(column=1, row=rowX)
+            nameBox.delete(0, END)
+            nameBox.insert(END, name)
+
+            pointsBox = Entry(frame2)
+            pointsBox.grid(column=2, row=rowX)
+            pointsBox.delete(0, END)
+            pointsBox.insert(END, points)
+
+
+
     except:
         errorMessageEntry.delete(0, END)
         errorMessageEntry.insert(END, "Leaderboard data err")
@@ -161,6 +176,7 @@ def changeToDriver():
 def changeToLeaderboard():
     frame2.pack(fill='both', expand=1)
     frame.pack_forget()
+    getLeaderboardData()
 # =====| END OF TEST |=====
 
 # =====| End of Event Handlers |=====
@@ -203,135 +219,153 @@ menu1.add_command(label="Driver Standings",  font=("arial", 12, "bold"), command
 menu1.add_command(label="Leaderboard", font=("arial", 12, "bold"), command=changeToLeaderboard)
 # =====| End of Menus |=====
 
-frame = Frame(window, width=200, height=250)
-frame.place(x=10, y=50)
+frame = Frame(window)
+# frame.place(x=10, y=50)
 
 # =====| TESTING |=====
-frame2 = Frame(window, width=200, height=250)
-frame2.place(x=10, y=50)
+frame2 = Frame(window)
+# frame2.place(x=10, y=50)
 # =====| END |=====
-titleLabel = Label(window, text="F1 Standings", fg="blue", bg="yellow", font=("arial", 16, "bold"))
-titleLabel.place(x=65, y=10)
+
+# =====| Driver Standings Page |=====
+titleLabel = Label(frame, text="F1 Standings", fg="blue", bg="yellow", font=("arial", 16, "bold"))
+titleLabel.grid(row=0, column=0, columnspan=2, sticky=W+E)
 
 driverNameLabel = Label(frame, text="Name", fg="blue",width=15, font=("arial", 10, "bold"))
-driverNameLabel.grid(row=0, column=0, sticky=W+E)
+driverNameLabel.grid(row=1, column=0, sticky=W+E)
 driverNameEntry = Entry(frame)
 driverNameEntry.insert(END, ' ')
-driverNameEntry.grid(row=0, column=1, sticky=W+E)
+driverNameEntry.grid(row=1, column=1, sticky=W+E)
 
 constructorNameLabel = Label(frame, text="Constructor", fg="blue",width=15, font=("arial", 10, "bold"))
-constructorNameLabel.grid(row=1, column=0, sticky=W+E)
+constructorNameLabel.grid(row=2, column=0, sticky=W+E)
 constructorNameEntry = Entry(frame)
 constructorNameEntry.insert(END, ' ')
-constructorNameEntry.grid(row=1, column=1, sticky=W+E)
+constructorNameEntry.grid(row=2, column=1, sticky=W+E)
 
 numOfPointsLabel = Label(frame, text="# of Points", fg="blue",width=15, font=("arial", 10, "bold"))
-numOfPointsLabel.grid(row=2, column=0, sticky=W+E)
+numOfPointsLabel.grid(row=3, column=0, sticky=W+E)
 numOfPointsEntry = Entry(frame)
 numOfPointsEntry.insert(END, '0')
-numOfPointsEntry.grid(row=2, column=1, sticky=W+E)
+numOfPointsEntry.grid(row=3, column=1, sticky=W+E)
 
 numOfRacesLabel = Label(frame, text="# of Races", fg="blue", width=15, font=("arial", 10, "bold"))
-numOfRacesLabel.grid(row=3, column=0, sticky=W+E)
+numOfRacesLabel.grid(row=4, column=0, sticky=W+E)
 numOfRacesEntry = Entry(frame)
 numOfRacesEntry.insert(END, '0')
-numOfRacesEntry.grid(row=3, column=1, sticky=W+E)
+numOfRacesEntry.grid(row=4, column=1, sticky=W+E)
 
 numOfWinsLabel = Label(frame, text="# of Wins", fg="blue",width=15, font=("arial", 10, "bold"))
-numOfWinsLabel.grid(row=4, column=0, sticky=W+E)
+numOfWinsLabel.grid(row=5, column=0, sticky=W+E)
 numOfWinsEntry = Entry(frame)
 numOfWinsEntry.insert(END, '0')
-numOfWinsEntry.grid(row=4, column=1, sticky=W+E)
+numOfWinsEntry.grid(row=5, column=1, sticky=W+E)
 
 numOfTop10Label = Label(frame, text="# of Top 10", fg="blue",width=15, font=("arial", 10, "bold"))
-numOfTop10Label.grid(row=5, column=0, sticky=W+E)
+numOfTop10Label.grid(row=6, column=0, sticky=W+E)
 numOfTop10Entry = Entry(frame)
 numOfTop10Entry.insert(END, '0')
-numOfTop10Entry.grid(row=5, column=1, sticky=W+E)
+numOfTop10Entry.grid(row=6, column=1, sticky=W+E)
 
 numOfDNFLabel = Label(frame, text="# of DNF's", fg="blue",width=15, font=("arial", 10, "bold"))
-numOfDNFLabel.grid(row=6, column=0, sticky=W+E)
+numOfDNFLabel.grid(row=7, column=0, sticky=W+E)
 numOfDNFEntry = Entry(frame)
 numOfDNFEntry.insert(END, '0')
-numOfDNFEntry.grid(row=6, column=1, sticky=W+E)
+numOfDNFEntry.grid(row=7, column=1, sticky=W+E)
 
 
 labelBlank = Label(frame, text=" ", fg="blue",width=15, font=("arial", 10, "bold"))   #
-labelBlank.grid(row=7, column=0, columnspan=2,sticky=W+E)
+labelBlank.grid(row=8, column=0, columnspan=2,sticky=W+E)
 
 
 var_fastestLapCheckbox = IntVar()  # 0 unchecked, 1 checked
 fastestLapCheckbox = Checkbutton(frame, text="Fastest Lap", variable=var_fastestLapCheckbox)
-fastestLapCheckbox.grid(row=8, column=0, columnspan=2)
+fastestLapCheckbox.grid(row=9, column=0, columnspan=2)
 
 recordPositionButton = Button(frame, text="Record Position", fg="black", font=("arial", 10, "bold"), command=setPoints)
-recordPositionButton.grid(row=9, column=0, sticky=W+E)
+recordPositionButton.grid(row=10, column=0, sticky=W+E)
 list1 = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
 positionVar = StringVar()
 combo1 = OptionMenu(frame, positionVar, *list1)
 positionVar.set("1")
-combo1.grid(row=9, column=1, sticky=W+E)
+combo1.grid(row=10, column=1, sticky=W+E)
 
 recordDNFButton = Button(frame, text="Record DNF", fg="black", font=("arial", 10, "bold"), command=markDNF)
-recordDNFButton.grid(row=10, column=0, sticky=W+E)
+recordDNFButton.grid(row=11, column=0, sticky=W+E)
 
 resetDataButton = Button(frame, text="Reset Data", fg="black", font=("arial", 10, "bold"), command=resetData)
-resetDataButton.grid(row=10, column=1, sticky=W+E)
+resetDataButton.grid(row=11, column=1, sticky=W+E)
 
 
 labelBlank = Label(frame, text=" ", fg="blue",width=15, font=("arial", 10, "bold"))   #
-labelBlank.grid(row=11, column=0, columnspan=2,sticky=W+E)
+labelBlank.grid(row=12, column=0, columnspan=2,sticky=W+E)
 
 
 winPercentageButton = Button(frame, text="Calculate Win %", fg="black", font=("arial", 10, "bold"), command=getWinPercentage)
-winPercentageButton.grid(row=12, column=0, sticky=W+E)
+winPercentageButton.grid(row=13, column=0, sticky=W+E)
 winPercentageEntry = Entry(frame)
 winPercentageEntry.insert(END, '0')
-winPercentageEntry.grid(row=12, column=1, sticky=W+E)
+winPercentageEntry.grid(row=13, column=1, sticky=W+E)
 
 top10PercentageButton = Button(frame, text="Calculate Top 10 %", fg="black", font=("arial", 10, "bold"), command=getTop10Percentage)
-top10PercentageButton.grid(row=13, column=0, sticky=W+E)
+top10PercentageButton.grid(row=14, column=0, sticky=W+E)
 top10PercentageEntry = Entry(frame)
 top10PercentageEntry.insert(END, '0')
-top10PercentageEntry.grid(row=13, column=1, sticky=W+E)
+top10PercentageEntry.grid(row=14, column=1, sticky=W+E)
 
 dnfPercentageButton = Button(frame, text="Calculate DNF %", fg="black", font=("arial", 10, "bold"), command=getDNFPercentage)
-dnfPercentageButton.grid(row=14, column=0, sticky=W+E)
+dnfPercentageButton.grid(row=15, column=0, sticky=W+E)
 dnfPercentageEntry = Entry(frame)
 dnfPercentageEntry.insert(END, '0')
-dnfPercentageEntry.grid(row=14, column=1, sticky=W+E)
+dnfPercentageEntry.grid(row=15, column=1, sticky=W+E)
 
 bestDriverButton = Button(frame, text="Best Driver", fg="black", font=("arial", 10, "bold"), command=getBestDriver)
-bestDriverButton.grid(row=15, column=0, sticky=W+E)
+bestDriverButton.grid(row=16, column=0, sticky=W+E)
 bestDriverEntry = Entry(frame)
 bestDriverEntry.insert(END, ' ')
-bestDriverEntry.grid(row=15, column=1, sticky=W+E)
+bestDriverEntry.grid(row=16, column=1, sticky=W+E)
 
 simSeasonButton = Button(frame, text="Simulate Season", fg="black", font=("arial", 10, "bold"), command=simulateSeason)
-simSeasonButton.grid(row=16, column=0, columnspan=2, sticky=W+E)
+simSeasonButton.grid(row=17, column=0, columnspan=2, sticky=W+E)
 
 
 labelBlank = Label(frame, text=" ", fg="blue", width=15, font=("arial", 10, "bold"))   #
-labelBlank.grid(row=17, column=0, columnspan=2, sticky=W+E)
+labelBlank.grid(row=18, column=0, columnspan=2, sticky=W+E)
 
 
 prevButton = Button(frame, text="Prev", fg="black", font=("arial", 10, "bold"), command=prevCmd)
-prevButton.grid(row=18, column=0, sticky=W+E)
+prevButton.grid(row=19, column=0, sticky=W+E)
 
 nextButton = Button(frame, text="Next", fg="black", font=("arial", 10, "bold"), command=nextCmd)
-nextButton.grid(row=18, column=1, sticky=W+E)
+nextButton.grid(row=19, column=1, sticky=W+E)
 
 firstButton = Button(frame, text="First", fg="black", font=("arial", 10, "bold"), command=firstCmd)
-firstButton.grid(row=19, column=0, sticky=W+E)
+firstButton.grid(row=20, column=0, sticky=W+E)
 
 lastButton = Button(frame, text="Last", fg="black", font=("arial", 10, "bold"), command=lastCmd)
-lastButton.grid(row=19, column=1, sticky=W+E)
+lastButton.grid(row=20, column=1, sticky=W+E)
 
 errorMessageLabel = Label(frame, text="Error Message", fg="red", width=15, font=("arial", 10, "bold"))
-errorMessageLabel.grid(row=20, column=0, sticky=W+E)
+errorMessageLabel.grid(row=21, column=0, sticky=W+E)
 errorMessageEntry = Entry(frame)
 errorMessageEntry.insert(END, ' ')
-errorMessageEntry.grid(row=20, column=1, sticky=W+E)
+errorMessageEntry.grid(row=21, column=1, sticky=W+E)
+
+# =====| End of Driver Standings Page |=====
+
+# =====| Start of Leaderboard Page |=====
+titleLabel = Label(frame2, text="Leaderboard", fg="blue", bg="yellow", font=("arial", 16, "bold"))
+titleLabel.grid(row=0, column=0, columnspan=3, sticky=W+E)
+
+positionLabel = Label(frame2, text="Position", fg="blue",width=15, font=("arial", 10, "bold"))
+positionLabel.grid(row=1, column=0, sticky=W+E)
+driverNameLabel = Label(frame2, text="Name", fg="blue",width=15, font=("arial", 10, "bold"))
+driverNameLabel.grid(row=1, column=1, sticky=W+E)
+driverPointsLabel = Label(frame2, text="Points", fg="blue",width=15, font=("arial", 10, "bold"))
+driverPointsLabel.grid(row=1, column=2, sticky=W+E)
+
+# =====| End of Leaderboard Page |=====
 
 display(0)
+changeToDriver()
 mainloop()

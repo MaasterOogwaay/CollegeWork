@@ -151,23 +151,27 @@ class Driver:
            # else:
             #    self.__races += 1
         # print("Loop ended after: " + str(self.__races))
-        num = 0
-        while num < 23:
+
+        # num = 0
+        #while num < 23:
+        for i in range(23):
+            self.__races += 1
             if 0 >= random() < 0.15:
                 self.__wins += 1
                 self.__top10 += 1
-                self.__races += 1
+                #self.__races += 1
             elif 0.15 >= random() < 0.40:
                 self.__top10 += 1
-                self.__races += 1
-            elif 0.40 >= random() < 0.85:
-                self.__races += 1
+                #self.__races += 1
+            #elif 0.40 >= random() < 0.85:
+            #    self.__races += 1
             elif 0.85 >= random() < 1:
                 self.__dnf += 1
-                self.__races += 1
+                #self.__races += 1
 
-            num += 1
-            print(num)
+
+            #num += 1
+            #print(num)
 
     def getLeaderboardData(self):
         name = self.__name
