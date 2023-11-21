@@ -1,5 +1,5 @@
 from tkinter import *
-from drivers import Driver
+from drivers import Driver, CannotSetFastestLap, NoRacesComplete, MaxRaceLimitReached
 # from leaderboard import Leaderboard
 
 # TODO - Insert constructor data
@@ -47,19 +47,30 @@ def setPoints():
         position = int(positionVar.get())
         driver.setPoints(position, fastestLapBonus)
         display(current)
-    except:
+    except CannotSetFastestLap:
+        errorMessageEntry.delete(0, END)
         errorMessageEntry.insert(END, "Cannot set fastest lap when position > 10")
-
+    except MaxRaceLimitReached:
+        errorMessageEntry.delete(0, END)
+        errorMessageEntry.insert(END, "Max number of races reached")
 
 def markDNF():
-    driver.markDNF()
-    display(current)
+    try:
+        driver.markDNF()
+        display(current)
+    except MaxRaceLimitReached:
+        errorMessageEntry.delete(0, END)
+        errorMessageEntry.insert(END, "Max number of races reached")
 
 
 def resetData():
     global current
     for el in driverList:
         el.resetAll()
+    winPercentageEntry.delete(0, END)
+    top10PercentageEntry.delete(0, END)
+    dnfPercentageEntry.delete(0, END)
+    bestDriverEntry.delete(0, END)
     display(current)
 
 def getWinPercentage():
@@ -96,7 +107,6 @@ def simulateSeason():
     global driver
     global current
     try:
-        # driver = driverList[0]
         for el in driverList:
             print(el.getName())
             el.simSeason()
@@ -104,18 +114,27 @@ def simulateSeason():
         display(current)
 
     except:
-        errorMessageEntry.insert(END, "Test")
+        errorMessageEntry.insert(END, "Sim season failed")
 
 def getLeaderboardData():
     global driver
     try:
         rowX = 1
+        x = []
         for el in driverList:
-            #el.getLeaderboardData()
-            name = el.getName()
-            points = el.getPoints()
-            rowX += 1
+            testing = el.getLeaderboardData()
+            x.append(testing)
+            #name = el.getName()
+            #points = el.getPoints()
+            #rowX += 1
 
+        x.sort(key=lambda y: y[1], reverse=True)
+
+        print(x)
+
+        for content in x:
+            rowX += 1
+            print(content[0])
             posBox = Entry(frame2)
             posBox.grid(column=0, row=rowX)
             posBox.delete(0, END)
@@ -124,14 +143,12 @@ def getLeaderboardData():
             nameBox = Entry(frame2)
             nameBox.grid(column=1, row=rowX)
             nameBox.delete(0, END)
-            nameBox.insert(END, name)
+            nameBox.insert(END, content[0])
 
             pointsBox = Entry(frame2)
             pointsBox.grid(column=2, row=rowX)
             pointsBox.delete(0, END)
-            pointsBox.insert(END, points)
-
-
+            pointsBox.insert(END, content[1])
 
     except:
         errorMessageEntry.delete(0, END)
@@ -140,10 +157,17 @@ def getLeaderboardData():
 def getBestDriver():
     global driver
     try:
-        # for el in driverList:
-        result = driver.getBestDriver(driverList)
+        largest = 0
+        name = ""
+        for el in driverList:
+            if el.getPoints() > largest:
+                largest = el.getPoints()
+                name = el.getName()
+        print(name, " | ", largest)
+
+        bestDriverEntry.delete(0, END)
+        bestDriverEntry.insert(END, name)
         errorMessageEntry.insert(END, "Leader data collected")
-        print(result)
     except:
         errorMessageEntry.delete(0, END)
         errorMessageEntry.insert(END, "Leaderboard data err")
