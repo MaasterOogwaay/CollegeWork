@@ -1,11 +1,24 @@
 from random import random, choice
-#import random
 
-class CannotSetFastestLap(Exception): pass
 
-class NoRacesComplete(Exception): pass
+class CannotSetFastestLap(Exception):
+    pass
 
-class MaxRaceLimitReached(Exception): pass
+
+class NoRacesComplete(Exception):
+    pass
+
+
+class MaxRaceLimitReached(Exception):
+    pass
+
+
+class SimSeasonFailed(Exception):
+    pass
+
+
+class LeaderboardDataErr(Exception):
+    pass
 
 
 class Driver:
@@ -25,12 +38,12 @@ class Driver:
         self.__top10 = 0
         self.__dnf = 0
 
-
     def getName(self):
         return self.__name
 
     def getConstructor(self):
         return self.__constructor
+
     def getPoints(self):
         return self.__points
 
@@ -87,8 +100,11 @@ class Driver:
                 self.__wins += 1
 
     def markDNF(self):
-        self.__races += 1
-        self.__dnf += 1
+        if self.__races == 23:
+            raise MaxRaceLimitReached
+        else:
+            self.__races += 1
+            self.__dnf += 1
 
     def getWinPercentage(self):
         if self.__races == 0:
@@ -109,30 +125,25 @@ class Driver:
             return int(100 * (self.__dnf / self.__races))
 
     def simSeason(self):
-
-        # TODO - wins are included in the top 10 stat
-        # TODO - calculate points based on # races
-        # TODO - randomise getting fastest lap
-
-        # TODO - figure out a way to compare race wins across all drivers so duplicates aren't allowed
         points_list = [18, 15, 12, 10, 8, 6, 4, 2, 1]
         numRaces = 0
         if self.__races > 0:
             numRaces = self.__races
         for i in range(23-numRaces):
             self.__races += 1
-            if 0 >= random() < 0.30:
+            randNum = (((random() * 1000) % 4) + 1)
+            print(randNum)
+            if 1 <= randNum < 2:
                 self.__wins += 1
                 self.__top10 += 1
                 self.__points += 25
-            elif 0.30 >= random() < 0.70:
+            elif 2 <= randNum < 3:
                 self.__top10 += 1
                 self.__points += choice(points_list)
-            elif 0.70 >= random() < 0.95:
+            elif 3 <= randNum < 4:
                 print("Placed 10-20")
-            elif 0.95 >= random() < 1:
+            elif randNum >= 4:
                 self.__dnf += 1
-
 
     def getLeaderboardData(self):
         name = self.__name
@@ -140,8 +151,3 @@ class Driver:
 
         print("Name: {0} | Points: {1}".format(name, points))
         return name, points
-
-
-
-
-

@@ -8,7 +8,6 @@ const getData = function () {
   fetch("https://restcountries.com/v3.1/all")
     .then((response) => response.json()) // returns response promise
     .then((json) => {
-      // console.log(json);
       getRandomCountry(json);
     }) // returns json promise
     .catch((error) => console.log(error));
@@ -18,7 +17,6 @@ const searchCountry = function (name) {
   fetch(`https://restcountries.com/v3.1/name/${name}?fullText=true`)
     .then((response) => response.json()) // returns response promise
     .then((json) => {
-      // console.log(json);
       buildPage(json);
     }) // returns json promise
     .catch((error) => console.log(error));
@@ -33,8 +31,6 @@ const getSearchTerm = function () {
 
 const buildPage = function (data) {
   $("card-div2").style.display = "none";
-  // console.log(data);
-  // console.log(data[0].name.official);
   let flag = data[0].flags.png;
   let countryName = data[0].name.official;
   let population = data[0].population.toLocaleString();
@@ -42,11 +38,25 @@ const buildPage = function (data) {
   let capital = data[0].capital;
   let area = data[0].area.toLocaleString();
 
+  let numOfBorders = "";
+  if (data[0].borders == undefined) {
+    numOfBorders = 0;
+  } else {
+    numOfBorders = data[0].borders.length;
+  }
+
   let isIndependent = "";
   if (data[0].independent == true) {
     isIndependent = "Independent country";
   } else {
     isIndependent = "Not an independent country";
+  }
+
+  let isLandLocked = "";
+  if (data[0].landlocked == true) {
+    isLandLocked = "Landlocked country";
+  } else {
+    isLandLocked = "Not a landlocked country";
   }
 
   let result = "";
@@ -70,13 +80,15 @@ const buildPage = function (data) {
             <div id="id01" class="w3-modal">
               <div class="w3-modal-content">
                 <div class="w3-container">
-                  <span onclick="document.getElementById('id01').style.display='none'; getData()" class="w3-button w3-display-topright">&times;</span><br/>
+                  <span onclick="document.getElementById('id01').style.display='none'; getData();" class="w3-button w3-display-topright">&times;</span><br/>
                   <table class="w3-table w3-striped">
                   <tr><td>Official Name</td><td>${countryName}</td></tr>
                   <tr><td>State of Independence</td><td>${isIndependent}</td></tr>
                   <tr><td>Region</td><td>${region}</td></tr>
                   <tr><td>Capital</td><td>${capital}</td></tr>
                   <tr><td>Area</td><td>${area}</td></tr>
+                  <tr><td>Landlocked</td><td>${isLandLocked}</td></tr>
+                  <tr><td>Number of Borders</td><td>Borders ${numOfBorders} countries</td></tr>
                 </table>
                 </div>
               </div>
@@ -105,6 +117,7 @@ const loadContent = function (data) {
 };
 
 const getRandomCountry = function (data) {
+  $("card-div2").style.display = "inline-flex";
   let result1 = "";
   let result2 = "";
   for (i = 0; i < 3; i++) {
@@ -118,6 +131,12 @@ const getRandomCountry = function (data) {
     let region = data[randomCountry].region;
     let capital = data[randomCountry].capital;
     let area = data[randomCountry].area.toLocaleString();
+    let numOfBorders = "";
+    if (data[randomCountry].borders == undefined) {
+      numOfBorders = 0;
+    } else {
+      numOfBorders = data[randomCountry].borders.length;
+    }
 
     let isIndependent = "";
     if (data[randomCountry].independent == true) {
@@ -126,9 +145,12 @@ const getRandomCountry = function (data) {
       isIndependent = "Not an independent country";
     }
 
-    //console.log(
-    //  `Country ${i}: ${flag} | ${countryName} | ${population} | ${region} | ${capital} | ${area} | ${isIndependent}`
-    //);
+    let isLandLocked = "";
+    if (data[randomCountry].landlocked == true) {
+      isLandLocked = "Landlocked country";
+    } else {
+      isLandLocked = "Not a landlocked country";
+    }
 
     result1 += `
     <div class="w3-card-2 w3-margin" style="width: 30%; height: 50%;">
@@ -145,18 +167,20 @@ const getRandomCountry = function (data) {
             </table>
         </div>
         <div class="w3-container w3-center">
-          <button onclick="document.getElementById('id${i}').style.display='block'" class="w3-button w3-black">Open Modal</button>
+          <button onclick="document.getElementById('id${i}').style.display='block'; clearInterval(timer);" class="w3-button w3-black">Open Modal</button>
 
           <div id="id${i}" class="w3-modal">
             <div class="w3-modal-content">
               <div class="w3-container">
-                <span onclick="document.getElementById('id${i}').style.display='none'" class="w3-button w3-display-topright">&times;</span><br/>
+                <span onclick="document.getElementById('id${i}').style.display='none'; startTimer()" class="w3-button w3-display-topright">&times;</span><br/>
                 <table class="w3-table w3-striped">
                 <tr><td>Official Name</td><td>${countryName}</td></tr>
                 <tr><td>State of Independence</td><td>${isIndependent}</td></tr>
                 <tr><td>Region</td><td>${region}</td></tr>
                 <tr><td>Capital</td><td>${capital}</td></tr>
                 <tr><td>Area</td><td>${area}</td></tr>
+                <tr><td>Landlocked</td><td>${isLandLocked}</td></tr>
+                <tr><td>Number of Borders</td><td>Borders ${numOfBorders} countries</td></tr>
               </table>
               </div>
             </div>
@@ -169,7 +193,6 @@ const getRandomCountry = function (data) {
 
   for (j = 3; j < 6; j++) {
     let randomCountry = Math.floor(Math.random() * data.length);
-    //console.log("Random: " + randomCountry);
 
     let flag = data[randomCountry].flags.png;
     let countryName = data[randomCountry].name.common;
@@ -177,6 +200,12 @@ const getRandomCountry = function (data) {
     let region = data[randomCountry].region;
     let capital = data[randomCountry].capital;
     let area = data[randomCountry].area.toLocaleString();
+    let numOfBorders = "";
+    if (data[randomCountry].borders == undefined) {
+      numOfBorders = 0;
+    } else {
+      numOfBorders = data[randomCountry].borders.length;
+    }
 
     let isIndependent = "";
     if (data[randomCountry].independent == true) {
@@ -185,9 +214,12 @@ const getRandomCountry = function (data) {
       isIndependent = "Not an independent country";
     }
 
-    // console.log(
-    //   `Country ${j}: ${flag} | ${countryName} | ${population} | ${region} | ${capital} | ${area} | ${isIndependent}`
-    // );
+    let isLandLocked = "";
+    if (data[randomCountry].landlocked == true) {
+      isLandLocked = "Landlocked country";
+    } else {
+      isLandLocked = "Not a landlocked country";
+    }
 
     result2 += `
     <div class="w3-card-2 w3-margin" style="width: 30%; height: 50%;">
@@ -216,6 +248,8 @@ const getRandomCountry = function (data) {
                   <tr><td>Region</td><td>${region}</td></tr>
                   <tr><td>Capital</td><td>${capital}</td></tr>
                   <tr><td>Area</td><td>${area}</td></tr>
+                  <tr><td>Landlocked</td><td>${isLandLocked}</td></tr>
+                  <tr><td>Number of Borders</td><td>Borders ${numOfBorders} countries</td></tr>
                 </table>
                 </div>
               </div>
@@ -231,20 +265,21 @@ const getRandomCountry = function (data) {
 };
 
 const getCountryByRegion = function () {
-  // TODO:
-  // Make the data load when the dropdown changes
   clearInterval(timer);
   let region = $("region-list").value;
-  timer = setInterval(() => {
+  if (region == "") {
+    getData();
+  } else {
     fetch(`https://restcountries.com/v3.1/region/${region}`)
       .then((response) => response.json()) // returns response promise
       .then((json) => {
-        // console.log(json);
-        console.log(region);
         getRandomCountry(json);
       }) // returns json promise
       .catch((error) => console.log(error));
-  }, 10000);
+    timer = setInterval(() => {
+      getCountryByRegion();
+    }, 10000);
+  }
 };
 
 const startTimer = function () {
@@ -254,10 +289,6 @@ const startTimer = function () {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  // TODO:
-  // Stop interval when search-button clicked
-  // Restart interval when modal is closed
-
   $("search-button").addEventListener("click", getSearchTerm);
   getData();
   startTimer();
