@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Information</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <h1 id="pageHeader" class="w3-center">Country Information App</h1>
+    <div class="w3-container w3-row w3-bar">
+        <div>
+            <input id="searchBar" type="search" placeholder="Search Country...">
+            <button class="w3-button" id="searchButton">Search</button>
+
+            <select class="w3-right" name="filterOptions" id="filterOptions">
+                <option value=""></option>
+                <option value="europe">Europe</option>
+                <option value="americas">Americas</option>
+                <option value="asia">Asia</option>
+                <option value="africa">Africa</option>
+                <option value="oceania">Oceania</option>
+                <option value="antartic">Antartic</option>
+            </select>
+            <label for="filterOptions" class="w3-right">&nbsp;</label>
+            <select class="w3-right" name="filterList" id="filterList">
+                <option value=""></option>
+                <option value="region">Region</option>
+                <option value="independence">Independence</option>
+                <option value="landlock">Landlock</option>
+                <option value="borders">Borders</option>
+            </select>
+            <label id="filterListLabel" for="filterList" class="w3-right">Filter by: </label>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="w3-center w3-mobile">
+        <div id="cardDiv1" class="w3-row-padding" style="display: inline-flex;">
+
+        </div>
+        <div id="cardDiv2" class="w3-row-padding" style="display: inline-flex;">
+
+        </div>
+
+        <hr />
+    </div>
+</body>
+
+</html>

@@ -13,10 +13,8 @@ const getData = function () {
     .catch((error) => console.log(error));
 };
 
-const searchCountry = function () {
-  clearInterval(timer);
-  let countryName = $("search-bar").value;
-  fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
+const searchCountry = function (name) {
+  fetch(`https://restcountries.com/v3.1/name/${name}?fullText=true`)
     .then((response) => response.json()) // returns response promise
     .then((json) => {
       buildPage(json);
@@ -24,8 +22,15 @@ const searchCountry = function () {
     .catch((error) => console.log(error));
 };
 
+const getSearchTerm = function () {
+  clearInterval(timer);
+  let countryName = $("searchBar").value;
+  console.log(countryName);
+  searchCountry(countryName);
+};
+
 const buildPage = function (data) {
-  $("card-div2").style.display = "none";
+  $("cardDiv2").style.display = "none";
   let flag = data[0].flags.png;
   let countryName = data[0].name.official;
   let population = data[0].population.toLocaleString();
@@ -92,11 +97,27 @@ const buildPage = function (data) {
       </div>
     </div>
     `;
-  $("card-div1").innerHTML = result;
+  $("cardDiv1").innerHTML = result;
+};
+
+const loadContent = function (data) {
+  getData();
+
+  let result = "";
+  result = `
+        <div class="card">
+            <img src="${data[0].flags.png}" alt="Avatar" style="width: 100%;">
+            <div class="container">
+                <h4><b>John Doe</b></h4>
+                <p>Architect & Engineer</p>
+            </div>
+        </div>
+    `;
+  $("cardDiv1").innerHTML = result;
 };
 
 const getRandomCountry = function (data) {
-  $("card-div2").style.display = "inline-flex";
+  $("cardDiv2").style.display = "inline-flex";
   let result1 = "";
   let result2 = "";
   for (i = 0; i < 3; i++) {
@@ -239,13 +260,13 @@ const getRandomCountry = function (data) {
     `;
   }
 
-  $("card-div1").innerHTML = result1;
-  $("card-div2").innerHTML = result2;
+  $("cardDiv1").innerHTML = result1;
+  $("cardDiv2").innerHTML = result2;
 };
 
 const getCountryByRegion = function () {
   clearInterval(timer);
-  let region = $("region-list").value;
+  let region = $("filterOptions").value;
   if (region == "") {
     getData();
   } else {
@@ -261,6 +282,34 @@ const getCountryByRegion = function () {
   }
 };
 
+const getFilterOption = function () {
+  clearInterval(timer);
+  let option = $("filterList").value;
+  console.log(option);
+
+  if (option == "") {
+    getData();
+  } else if (option == "region") {
+  } else if (option == "independence") {
+  } else if (option == "landlock") {
+  } else if (option == "borders") {
+  }
+
+  // if (option == "") {
+  //   getData();
+  // } else {
+  //   fetch(`https://restcountries.com/v3.1/region/${region}`)
+  //     .then((response) => response.json()) // returns response promise
+  //     .then((json) => {
+  //       getRandomCountry(json);
+  //     }) // returns json promise
+  //     .catch((error) => console.log(error));
+  //   timer = setInterval(() => {
+  //     getCountryByRegion();
+  //   }, 10000);
+  // }
+};
+
 const startTimer = function () {
   timer = setInterval(() => {
     getData();
@@ -268,10 +317,9 @@ const startTimer = function () {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  $("searchButton").addEventListener("click", getSearchTerm);
   getData();
   startTimer();
 
-  $("search-button").addEventListener("click", searchCountry);
-
-  $("region-list").addEventListener("change", getCountryByRegion);
+  $("filterList").addEventListener("change", getFilterOption);
 });
