@@ -7,10 +7,15 @@ window.title("List Functions")
 
 
 def findNumber(dict, key):
-    return dict.get(key)
+    result = dict.get(key)
+    return result
 
 
 def add(dict, key, value):
+    dict.update({key: value})
+
+
+def update(dict, key, value):
     dict.update({key: value})
 
 
@@ -27,6 +32,13 @@ def addEvent():
     key = entry2.get()
     value = entry3.get()
     add(studentList, key, value)
+
+
+def updateEvent():
+    global studentList
+    key = entry2.get()
+    value = entry3.get()
+    update(studentList, key, value)
 
 
 studentList = {'Smith': '0874231234', 'Jones': '0861234123', 'peters': '0857878781', 'Adams': '0441234561', 'Cross': '0874234566'}
@@ -54,6 +66,9 @@ button1.place(x=40, y=160)
 
 button2 = Button(window, text="add", width=8, fg="black", font=("arial", 10, "bold"), command=addEvent)
 button2.place(x=140, y=160)
+
+button3 = Button(window, text="update", width=8, fg="black", font=("arial", 10, "bold"), command=updateEvent)
+button3.place(x=40, y=200)
 
 
 mainloop()
