@@ -1,0 +1,7 @@
+Player     Home_Goals  Away_Goals
+-----------------------------------
+J.Smith       5            3
+T.Shine       9            7
+L.Jones      10            9
+M.Marsh       7            5
+L.Lennon     13            9
