@@ -1,0 +1,1 @@
+Total of all values=: 40

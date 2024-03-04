@@ -1,0 +1,7 @@
+City      Country    Pop (Millions)
+-----------------------------------
+Dublin    Ireland     1.3
+London    England     14.2
+Hull      England     1.2
+Paris     France      6.7
+Leeds     England     3.4
