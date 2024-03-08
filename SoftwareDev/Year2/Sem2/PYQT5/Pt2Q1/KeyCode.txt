@@ -1,0 +1,23 @@
+    def incrEvent(self):
+        balance = int(self.lineEdit1.text())
+        balance += 1
+        if (balance >= 0):
+            self.checkBox1.setChecked(False)
+            self.lineEdit1.setText(str(balance))
+
+    def withDrawEvent(self):
+        balance = int(self.lineEdit1.text())
+        amount = int(self.comboBox1.currentText())
+        if (amount>balance):
+            self.checkBox1.setChecked(True)
+        else:
+            balance -= amount
+            self.lineEdit1.setText(str(balance))
+            self.checkBox1.setChecked(False)
+
+
+
+
+
+    self.pushButton1.pressed.connect(self.withDrawEvent)
+    self.actionIncrement_1.triggered.connect(self.incrEvent) # type: ignore
