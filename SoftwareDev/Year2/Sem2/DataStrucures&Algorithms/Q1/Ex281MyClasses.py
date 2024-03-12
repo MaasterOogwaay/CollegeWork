@@ -1,6 +1,6 @@
 class MyList:
 
-    def __init__(self,list):
+    def __init__(self, list):
         self._list = list
 
     def linearSearch(self, target):
@@ -10,9 +10,8 @@ class MyList:
                 result = True
         return result
 
-
     def readList(self):
-        list=' [ '
+        list = ' [ '
         for el in self._list:
             list += str(el) + ', '
         list += ']'
