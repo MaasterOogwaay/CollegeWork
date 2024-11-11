@@ -22,8 +22,8 @@ def testData():
     text.insert(END, decisionTree.readCategories())
     result, accuracy = decisionTree.testData()
     text.insert(END, '\n['+str(result[0]))
-    text.insert(END, '\n '+str(result[1])+']')
-    #text.insert(END, '\n '+str(result[2]) +']')
+    text.insert(END, '\n '+str(result[1]))
+    text.insert(END, '\n '+str(result[2]) +']')
 
     text.insert(END, '\n\nAccuracy ' + str(int(accuracy*100)) + '%')
 def makeNewPrediction():
@@ -95,7 +95,7 @@ entry43 = Entry(frame)
 entry43.insert(END, '')
 entry43.grid(row=7, column=1, sticky=W+E)
 
-label44 = Label(frame, text="Plasma Glucose Level", fg="blue", width=15, font=("arial", 10, "bold"))   #
+label44 = Label(frame, text="Plasma Glucose Level", fg="blue", width=15, font=("arial", 8, "bold"))   #
 label44.grid(row=8, column=0, sticky=W+E)
 entry44 = Entry(frame)
 entry44.insert(END, '')
@@ -107,7 +107,7 @@ entry44a = Entry(frame)
 entry44a.insert(END, '')
 entry44a.grid(row=9, column=1, sticky=W+E)
 
-label44b = Label(frame, text="Steady Plasma Glucose", fg="blue", width=15, font=("arial", 10, "bold"))   #
+label44b = Label(frame, text="Steady Plasma Glucose", fg="blue", width=15, font=("arial", 8, "bold"))   #
 label44b.grid(row=10, column=0, sticky=W+E)
 entry44b = Entry(frame)
 entry44b.insert(END, '')
@@ -128,14 +128,15 @@ entry45.grid(row=11, column=1, sticky=W+E)
 #canvas.create_image(1,1,  anchor='nw', image=image)
 label02a = Label(frame, text="      ", fg="red", font=("arial", 16, "bold"))
 label02a.grid(row=12, column=0, columnspan=2,sticky=W+E)
-label03b = Label(frame, text="Normal Values", fg="red", font=("arial", 14, "bold"))
+label03b = Label(frame, text="Diabetic Type Evaluation", fg="red", font=("arial", 14, "bold"))
 label03b.grid(row=13, column=0, columnspan=2,sticky=W+E)
 
-textb = Text(frame, height = 6, width = 12 )
+textb = Text(frame, height = 10, width = 12 )
 textb.grid(row=14, column=0, columnspan=2,ipadx=100)
-textb.insert(END, '\nResting Systolic Blood Pressure < 120')
-textb.insert(END, '\nCholesterol <200')
-textb.insert(END, '\nResting ECG (0-2):  Normal=0')
-textb.insert(END, '\nMax Heart Rate:  Normal= (220 - Age)')
+textb.insert(END, '\nDistinguishing between the three clinical groups is very simple')
+textb.insert(END, '\n')
+textb.insert(END, '\nPlasma Glucose Level < 420 = Normal')
+textb.insert(END, '\nFasting Plasma Gluscose < 117 = Chemical Diabetic')
+textb.insert(END, '\nFasting Plasma Gluscose > 117 = Overt Diabetic')
 
 mainloop()

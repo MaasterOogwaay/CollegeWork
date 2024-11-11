@@ -56,15 +56,16 @@ class MyDecisionTreeHealth:
         result = ''
         index = 0
         setOfCategories = set(self.y)
+        print(sorted(setOfCategories))
         for catName in sorted(setOfCategories):
             print(catName)
             if index > 0:
                 result += " / "
-            if catName == 0:
+            if catName == "Chemical_Diabetic":
+                result += "Chemical"
+            if catName == "Normal":
                 result += "Normal"
-            if catName == 1:
-                result += "Chemical Diabetic"
-            if catName == 2:
-                result += "Overt Diabetic"
+            if catName == "Overt_Diabetic":
+                result += "Overt"
             index += 1
         return result
